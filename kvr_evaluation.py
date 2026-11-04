@@ -121,7 +121,7 @@ def n_sweep(settings: Settings, netz: Netz, tree, table) -> dict:
 def verdict_n_sweep(exp: dict) -> tuple[str, str]:
     rows = exp["rows"]
     worst = max(rows, key=lambda r: r["ratio_plug"] - r["ratio_oracle"])
-    noise = 100 / np.sqrt(C.SWEEP_REPS / 2)
+    noise = 200 / np.sqrt(C.SWEEP_REPS - 1)
     text = (f"Exakter Faktor {de(exp['factor_exact'], 3)}. Mit dem exakten β liegt das gemessene Verhältnis zwischen {de(min(r['ratio_oracle'] for r in rows), 2)} und {de(max(r['ratio_oracle'] for r in rows), 2)}; "
             f"mit dem geschätzten zwischen {de(min(r['ratio_plug'] for r in rows), 2)} und {de(max(r['ratio_plug'] for r in rows), 2)}, am schlechtesten bei N = {de(worst['N'], 0)} "
             f"({de(worst['ratio_plug'], 2)} gegen {de(worst['ratio_oracle'], 2)}). Das Rauschen der Verhältnisse beträgt bei {C.SWEEP_REPS} Wiederholungen rund {de(noise, 0)} %.")

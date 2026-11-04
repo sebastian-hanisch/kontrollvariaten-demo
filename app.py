@@ -2,7 +2,7 @@
 Sebastian Hanisch - Operations Research und Machine Learning
 
 Stück 3 der Linie "Monte-Carlo-Schätzung und Varianzreduktion": Eine Kontrollvariate ist eine Größe mit bekanntem Erwartungswert, die mit dem Ziel
-mitschwankt; der Schätzer X - beta (C - E C) bleibt erwartungstreu, seine Varianz sinkt auf den Faktor 1 - R^2. Vehikel ist die Zuverlässigkeit eines
+mitschwankt; der Schätzer X - beta (C - E C) bleibt für festes beta erwartungstreu, seine Varianz sinkt bei bestem beta auf den Faktor 1 - R^2. Vehikel ist die Zuverlässigkeit eines
 Gitternetzes, die Wahrheit ist exakt aufgezählt.
 
 Lauffähig mit: streamlit run app.py
@@ -82,9 +82,9 @@ with st.container(key="kopf"):
     st.title("🧭 Kontrollvariaten: Wissen nutzen, das man schon hat")
 st.markdown(
     """
-Eine **Kontrollvariate** ist eine Größe C mit **bekanntem** Erwartungswert, die mit dem Ziel X mitschwankt. Der Schätzer **X − β (C − E C)** bleibt erwartungstreu, und seine Varianz sinkt auf den Faktor **1 − R²**.
+Eine **Kontrollvariate** ist eine Größe C mit **bekanntem** Erwartungswert, die mit dem Ziel X mitschwankt. Der Schätzer **X − β (C − E C)** bleibt für festes β erwartungstreu, und seine Varianz sinkt bei bestem β auf den Faktor **1 − R²**.
 Entscheidend ist, **welche** Größe man nimmt: Die naheliegende (Zahl der haltenden Kanten) hilft in der Mitte und fast gar nicht bei **seltenen Ausfällen**; die, die den **Mechanismus** des seltenen Ereignisses trifft (Zahl der isolierten Knoten), senkt die Varianz dort drastisch.
-Der Preis: **β muss geschätzt werden**, und das kostet eine kleine Verzerrung, Gewinn bei kleinem N und Intervalle, die bei seltenen Ereignissen unterdecken. Hier ist die Wahrheit bekannt (Zuverlässigkeit eines Gitternetzes, alle Kantenmengen aufgezählt).
+Der Preis: **β muss geschätzt werden** (kleine Verzerrung, Gewinnverlust bei kleinem N). Zusätzlich unterdeckt das naive Intervall bei seltenen Ereignissen, auch mit dem exakten β. Hier ist die Wahrheit bekannt (Zuverlässigkeit eines Gitternetzes, alle Kantenmengen aufgezählt).
 
 Weiter unten: **🔬 fünf Experimente**, **🧪 Spielwiese**, **🚧 Wo die Annahmen enden** und die Expander **⚠️ Annahmen, Grenzen und bekannte Probleme** und **📐 Mathematische Formulierung**.
 """
@@ -131,7 +131,7 @@ st.markdown("## 🎯 Ergebnis")
 m1, m2, m3, m4 = st.columns(4)
 m1.metric("Wahrheit R", de(a.truth, 4), help=f"Exakte Zuverlässigkeit des {a.netz.name}s bei p = {de(settings.p, 2)} (Aufzählung aller Kantenmengen).")
 m2.metric("Exakter Faktor", de(a.factor_exact, 3) if a.factor_exact == a.factor_exact else "–", help="Exakter Varianzfaktor 1 − R² der gewählten Kontrollvariate (aus der Aufzählung): so viel der Varianz bleibt mit dem besten β.")
-m3.metric("Gemessen (β exakt)", de(a.ratio_oracle, 2) if a.ratio_oracle == a.ratio_oracle else "–", help=f"Varianz gegen den einfachen Schätzer, aus {C.REPS} Wiederholungen, mit dem exakten β*. Rauschen etwa 10 %.")
+m3.metric("Gemessen (β exakt)", de(a.ratio_oracle, 2) if a.ratio_oracle == a.ratio_oracle else "–", help=f"Varianz gegen den einfachen Schätzer, aus {C.REPS} Wiederholungen, mit dem exakten β*. Rauschen etwa 10 bis 15 %.")
 m4.metric("Gemessen (β geschätzt)", de(a.ratio_plug, 2) if a.ratio_plug == a.ratio_plug else "–", help="Dasselbe mit β aus der Stichprobe.")
 st.caption("Optimaler Koeffizient β* und Korrelation mit dem Ziel: " + "; ".join(f"{C.CONTROL_NAMES[nm]}: β* = {de(a.beta_star[nm], 3)}, Korrelation {de(a.corr[nm], 3)}" for nm in a.names) + ".")
 st.plotly_chart(build_spread(a), width="stretch", key="main_chart")
@@ -272,7 +272,7 @@ with st.expander("⚠️ Annahmen, Grenzen und bekannte Probleme"):
 
 **Grenzen.** Aufgezählt wird live bis 17 Kanten. Es gibt drei Kontrollvariaten und ihre Kombination, nur lineare Anpassung. Die Überdeckung wird für das **naive** Intervall gemessen (Schätzung ± 1,96 · Standardfehler aus der Residualvarianz), nicht für eine Delta-Methode, die die Schätzung von β berücksichtigt. Zeiten werden nicht gemessen.
 
-**Bekannte Probleme und Unsicherheiten.** Varianzverhältnisse aus 200 oder 300 Wiederholungen rauschen um rund 8 bis 10 %. Bei N = 100 und p = 0,99 enthalten die meisten Wiederholungen keinen Ausfall; das gemessene Varianzverhältnis ist dort nicht belastbar. Experiment 5 prüft nur eine **Identität** der Formeln (derselbe Ausdruck), kein unabhängiger Rechenweg; belegt ist das Varianzverhältnis. Die Literaturangaben im Mathematik-Expander stammen aus dem Gedächtnis und sind nicht eingesehen. Die Oberfläche ist mit AppTest geprüft und im Browser angesehen, nicht mit echtem Mausklick auf jedem Gerät.
+**Bekannte Probleme und Unsicherheiten.** Varianzverhältnisse aus 200 oder 300 Wiederholungen rauschen um rund 10 bis 15 %. Der einfache Schätzer benutzt für sein Intervall dieselben Freiheitsgrade N − 1 − k wie die Anpassung; bei N = 30 und drei Kontrollvariaten ist sein Standardfehler dadurch um 5,6 % zu groß. Bei N = 100 und p = 0,99 enthalten die meisten Wiederholungen keinen Ausfall; das gemessene Varianzverhältnis ist dort nicht belastbar. Experiment 5 prüft nur eine **Identität** der Formeln (derselbe Ausdruck), kein unabhängiger Rechenweg; belegt ist das Varianzverhältnis. Die Literaturangaben im Mathematik-Expander stammen aus dem Gedächtnis und sind nicht eingesehen. Die Oberfläche ist mit AppTest geprüft und im Browser angesehen, nicht mit echtem Mausklick auf jedem Gerät.
         """
     )
 

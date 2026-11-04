@@ -50,7 +50,7 @@ def test_n_sweep_verdikt_nennt_bereiche_und_den_schlechtesten_fall():
     rows = [{"N": 30, "ratio_oracle": 0.49, "ratio_plug": 0.79}, {"N": 100, "ratio_oracle": 0.46, "ratio_plug": 0.56}, {"N": 1000, "ratio_oracle": 0.445, "ratio_plug": 0.448}]
     kind, text = ev.verdict_n_sweep({"rows": rows, "factor_exact": 0.483})
     assert kind == "info"
-    for teil in ("Exakter Faktor 0,483", "zwischen 0,45 und 0,49", "zwischen 0,45 und 0,79", "am schlechtesten bei N = 30 (0,79 gegen 0,49)", "rund 8 %"):
+    for teil in ("Exakter Faktor 0,483", "zwischen 0,45 und 0,49", "zwischen 0,45 und 0,79", "am schlechtesten bei N = 30 (0,79 gegen 0,49)", "rund 12 %"):
         assert teil in text, teil
 
 

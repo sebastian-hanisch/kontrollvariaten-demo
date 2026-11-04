@@ -16,7 +16,7 @@ P_MIN, P_MAX, DEFAULT_P = 0.50, 0.99, 0.90
 N_CHOICES = (30, 100, 300, 1000, 3000)    # Ziehungen je Schätzung
 N_MIN, N_MAX, DEFAULT_N = N_CHOICES[0], N_CHOICES[-1], 1000
 SEED_MAX, DEFAULT_SEED = 999999, 35
-REPS = 200                                # Wiederholungen je Schätzung (feste Ströme), Rauschen der Varianzverhältnisse 1/sqrt(REPS/2) ≈ 10 %
+REPS = 200                                # Wiederholungen je Schätzung (feste Ströme), Rauschen der Varianzverhältnisse 2/sqrt(REPS − 1) ≈ 14 %
 
 # Experimente
 SWEEP_N = (30, 100, 300, 1000)
