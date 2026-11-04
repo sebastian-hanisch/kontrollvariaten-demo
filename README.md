@@ -1,7 +1,6 @@
 # Kontrollvariaten: Wissen nutzen, das man schon hat – Streamlit-Demo
 
-<!-- TODO nach dem Deploy: direkt hierher den Live-Link setzen (Leerzeile davor und danach):
-**[→ Demo live ausprobieren](https://sebastianhanisch-kontrollvariaten-demo.streamlit.app/)** -->
+**[→ Demo live ausprobieren](https://sebastianhanisch-kontrollvariaten-demo.streamlit.app/)**
 
 Drittes Stück der Linie **„Monte-Carlo-Schätzung und Varianzreduktion“** in der „Konzepte“-Reihe für die Website „Sebastian Hanisch – Operations Research und Machine Learning“ (die Linie wird erst vollständig veröffentlicht). Nachfolger von [gekoppelte-ziehungen-demo](https://github.com/sebastian-hanisch/gekoppelte-ziehungen-demo) (Stück 2, feste Kopplung durch Spiegelung) und [monte-carlo-schaetzer-demo](https://github.com/sebastian-hanisch/monte-carlo-schaetzer-demo) (Stück 1): Hier senkt eine **lernende** Korrektur die Varianz. Eine **Kontrollvariate** ist eine Größe C mit **bekanntem** Erwartungswert, die mit dem Ziel X mitschwankt; der Schätzer **X − β (C − E C)** bleibt für festes β erwartungstreu, und seine Varianz sinkt bei bestem β auf den Faktor **1 − R²**.
 
@@ -134,4 +133,4 @@ Gebaut mit Streamlit, Plotly, NumPy und fpdf2.
 
 ---
 
-Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zu den Demos: [Interaktive Demos](https://sebastianhanisch.net/demos.html).
+Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zur Reihe: [Monte-Carlo-Schätzung: vom Schätzer zur Wahl](https://sebastianhanisch.net/konzepte-monte-carlo.html).
